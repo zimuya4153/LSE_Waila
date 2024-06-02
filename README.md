@@ -8,7 +8,7 @@ Waila是一个LSE高亮显示插件，他集成了许多原版信息的具体化
 下载释放文件，解压插件文件夹至BDS服务端plugins文件夹内，并加载
 ## 使用方法
 游戏内玩家可输入/waila来设置自己的Waila开关及样式  
-![[表单](https://img-blog.csdnimg.cn/8bbc653f3f854023856762ed2c8e43e9.png#pic_center =60x60)](https://raw.githubusercontent.com/zimuya4153/LSE_Waila/main/src/form.png)  
+![表单](http://www.gwbbs.top/img/Wailaform.png)
 ps:如果装了我们的UI包，那活动栏将是一个非常好的选择
 ## 语言文件[zh_CN.lang](https://github.com/zimuya4153/LSE_Waila/blob/main/zh_CN.lang)
 如果遇到原版未翻译的或者你有自己的个性都可以去访问这个文件  
