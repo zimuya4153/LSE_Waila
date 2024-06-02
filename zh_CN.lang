@@ -11,7 +11,7 @@ plugins.Waila.gui.dropdown.items.tell_tip=§3物品栏上方
 plugins.Waila.gui.dropdown.items.actionBar=§5活动栏
 
 ## 配置文件翻译
-plugins.Waila.get.error=
+plugins.Waila.get.error=§c未获取到方块信息
 
 plugins.Waila.block.name=§6%s §7(%s)
 plugins.Waila.block.destroytime=§7破坏时长 §6%ss
