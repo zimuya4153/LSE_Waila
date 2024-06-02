@@ -15,7 +15,7 @@ Waila是一个LSE高亮显示插件，他集成了许多原版信息的具体化
 ![表单](http://www.gwbbs.top/img/Wailaform.png)  
 ps:如果装了我们的UI包，那活动栏将是一个非常好的选择
 ## 语言文件[zh_CN.lang](https://github.com/zimuya4153/LSE_Waila/blob/main/zh_CN.lang)  
-如果遇到原版未翻译的或者你有自己的个性都可以去访问这个文件  
+>如果遇到原版未翻译的或者你有自己的个性都可以去访问这个文件  
 切记如果你没有基础请按照规律来修改，修改错误可能导致你无法使用Waila
 ## 特别操作
 这里是WuHuiZhang6902(合作者)，教你点东西，看到Config.js文件没，如果你觉着名称后面的英文id显示太长，你可以将以下代码替换第19行，那么这type就变成短短的整数id了  
@@ -202,4 +202,4 @@ module.exports = {
  * @property {(string | function(Player, PlayerConfig, Block|Entity): string)} Text - 文本内容  
  */
 ```
-<font color=Red>注意:如果你没有编程基础，请不要随意修改</font>
+>注意:如果你没有编程基础，请不要随意修改
