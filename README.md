@@ -3,7 +3,7 @@
 Waila是一个LSE高亮显示插件，他集成了许多原版信息的具体化显示，可以更好的方便玩家对方块或生物的信息进行查看
 ## 如何正确加载Waila
 ### 所需环境
-需要在LeviLamina环境下装载前置:  
+需要在Bedrock Dedicated Server(BDS)服务端下装载前置:  
 - LeviLamina
 - legacy-script-engine-quickjs
 - GMLIB
