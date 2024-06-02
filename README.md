@@ -7,24 +7,24 @@ Waila 是一个 LSE 高亮显示插件，他集成了许多原版信息的具体
 ## 图骗展示
 <details>  
   <summary>展开</summary>  
-  <img src="https://github.com/zimuya4153/LSE_Waila/blob/main/src/image_1.png?raw=true" alt="基础演示">
-  <img src="https://github.com/zimuya4153/LSE_Waila/blob/main/src/image_2.png?raw=true" alt="破坏时长和采集演示">
-  <img src="https://github.com/zimuya4153/LSE_Waila/blob/main/src/image_3.png?raw=true" alt="蛋糕状态">
-  <img src="https://github.com/zimuya4153/LSE_Waila/blob/main/src/image_4.png?raw=true" alt="箱子容量">
-  <img src="https://github.com/zimuya4153/LSE_Waila/blob/main/src/image_5.png?raw=true" alt="农作物状态">
-  <img src="https://github.com/zimuya4153/LSE_Waila/blob/main/src/image_6.png?raw=true" alt="红石等级">
-  <img src="https://github.com/zimuya4153/LSE_Waila/blob/main/src/image_7.png?raw=true" alt="开关状态">
-  <img src="https://github.com/zimuya4153/LSE_Waila/blob/main/src/image_8.png?raw=true" alt="播放唱片">
-  <img src="https://github.com/zimuya4153/LSE_Waila/blob/main/src/image_9.png?raw=true" alt="花盆种植">
-  <img src="https://github.com/zimuya4153/LSE_Waila/blob/main/src/image_10.png?raw=true" alt="命令方块的命令">
-  <img src="https://github.com/zimuya4153/LSE_Waila/blob/main/src/image_11.png?raw=true" alt="刷怪笼刷新生物">
-  <img src="https://github.com/zimuya4153/LSE_Waila/blob/main/src/image_12.png?raw=true" alt="信标效果">
-  <img src="https://github.com/zimuya4153/LSE_Waila/blob/main/src/image_13.png?raw=true" alt="盔甲架姿势">
-  <img src="https://github.com/zimuya4153/LSE_Waila/blob/main/src/image_14.png?raw=true" alt="画的主题">
-  <img src="https://github.com/zimuya4153/LSE_Waila/blob/main/src/image_15.png?raw=true" alt="史莱姆大小">
-  <img src="https://github.com/zimuya4153/LSE_Waila/blob/main/src/image_16.png?raw=true" alt="下落方块的实际方块">
-  <img src="https://github.com/zimuya4153/LSE_Waila/blob/main/src/image_17.png?raw=true" alt="TNT剩余爆炸时间">
-  <img src="https://github.com/zimuya4153/LSE_Waila/blob/main/src/image_18.png?raw=true" alt="村民交易">
+  <img src="https://github.com/zimuya4153/LSE_Waila/blob/main/image/image_1.png?raw=true" alt="基础演示">
+  <img src="https://github.com/zimuya4153/LSE_Waila/blob/main/image/image_2.png?raw=true" alt="破坏时长和采集演示">
+  <img src="https://github.com/zimuya4153/LSE_Waila/blob/main/image/image_3.png?raw=true" alt="蛋糕状态">
+  <img src="https://github.com/zimuya4153/LSE_Waila/blob/main/image/image_4.png?raw=true" alt="箱子容量">
+  <img src="https://github.com/zimuya4153/LSE_Waila/blob/main/image/image_5.png?raw=true" alt="农作物状态">
+  <img src="https://github.com/zimuya4153/LSE_Waila/blob/main/image/image_6.png?raw=true" alt="红石等级">
+  <img src="https://github.com/zimuya4153/LSE_Waila/blob/main/image/image_7.png?raw=true" alt="开关状态">
+  <img src="https://github.com/zimuya4153/LSE_Waila/blob/main/image/image_8.png?raw=true" alt="播放唱片">
+  <img src="https://github.com/zimuya4153/LSE_Waila/blob/main/image/image_9.png?raw=true" alt="花盆种植">
+  <img src="https://github.com/zimuya4153/LSE_Waila/blob/main/image/image_10.png?raw=true" alt="命令方块的命令">
+  <img src="https://github.com/zimuya4153/LSE_Waila/blob/main/image/image_11.png?raw=true" alt="刷怪笼刷新生物">
+  <img src="https://github.com/zimuya4153/LSE_Waila/blob/main/image/image_12.png?raw=true" alt="信标效果">
+  <img src="https://github.com/zimuya4153/LSE_Waila/blob/main/image/image_13.png?raw=true" alt="盔甲架姿势">
+  <img src="https://github.com/zimuya4153/LSE_Waila/blob/main/image/image_14.png?raw=true" alt="画的主题">
+  <img src="https://github.com/zimuya4153/LSE_Waila/blob/main/image/image_15.png?raw=true" alt="史莱姆大小">
+  <img src="https://github.com/zimuya4153/LSE_Waila/blob/main/image/image_16.png?raw=true" alt="下落方块的实际方块">
+  <img src="https://github.com/zimuya4153/LSE_Waila/blob/main/image/image_17.png?raw=true" alt="TNT剩余爆炸时间">
+  <img src="https://github.com/zimuya4153/LSE_Waila/blob/main/image/image_18.png?raw=true" alt="村民交易">
 </details>
 
 ## 如何正确加载 Waila
@@ -48,7 +48,7 @@ Waila 是一个 LSE 高亮显示插件，他集成了许多原版信息的具体
 ![表单](http://www.gwbbs.top/img/Wailaform.png)  
 ps:如果装了我们的 UI 包，那活动栏将是一个非常好的选择
 
-## 语言文件[zh_CN.lang](https://github.com/zimuya4153/LSE_Waila/blob/main/src/form.png?raw=true)
+## 语言文件[zh_CN.lang](https://github.com/zimuya4153/LSE_Waila/blob/main/image/form.png?raw=true)
 
 > 如果遇到原版未翻译的或者你有自己的个性都可以去访问这个文件  
 > 切记如果你没有基础请按照规律来修改，修改错误可能导致你无法使用 Waila
