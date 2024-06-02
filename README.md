@@ -16,7 +16,7 @@ ps:如果装了我们的UI包，那活动栏将是一个非常好的选择
 ## 特别操作
 这里是WuHuiZhang6902(合作者)，教你点东西，看到Config.js文件没，如果你觉着名称后面的英文id显示太长，你可以将以下代码替换第19行，那么这type就变成短短的整数id了  
 ```javascript
-Text: (Player, PlayerConfig, Block) => I18nAPI.get('plugins.Waila.block.name', [Block.getTranslateName(Player.langCode), Block.], Player.langCode)
+Text: (Player, PlayerConfig, Block) => I18nAPI.get('plugins.Waila.block.name', [Block.getTranslateName(Player.langCode), Block.id.toString()], Player.langCode)
 ```
 什么，你还要再学点小操作？  
 如果你不想让他在不瞄准任何东西情况下提示文字，那么你只需要将下面代码替换Config.js文件的149行
