@@ -63,6 +63,14 @@ module.exports = {
                 Conditions: (_Player, _PlayerConfig, Block) => Block.type === 'minecraft:mob_spawner' && ![null, ''].includes(Block?.getBlockEntity()?.getNbt()?.getData('EntityIdentifier')),
                 Text: (Player, _PlayerConfig, Block) => '\n' + I18nAPI.get(`plugins.Waila.block.mob_spawner`, [Block?.getBlockEntity().getNbt().getData('EntityIdentifier')], Player.langCode)
             },
+            {// 音符盒
+                Conditions: (_Player, _PlayerConfig, Block) => Block.type === 'minecraft:noteblock',
+                Text: (Player, _PlayerConfig, Block) => '\n' + I18nAPI.get(`plugins.Waila.block.noteblock`, [Block?.getBlockEntity().getNbt().getData('note').toString()], Player.langCode)
+            },
+            {// 音符盒
+                Conditions: (_Player, _PlayerConfig, Block) => Block.type === 'minecraft:composter',
+                Text: (Player, _PlayerConfig, Block) => '\n' + I18nAPI.get(`plugins.Waila.block.composter`, [Block?.getNbt()?.getTag('states')?.getData('composter_fill_level')?.toString()], Player.langCode)
+            },
             {// 信标
                 Conditions: (_Player, _PlayerConfig, Block) => Block.type === 'minecraft:beacon' && ![0, null].includes(Block?.getBlockEntity()?.getNbt()?.getData('primary')),
                 Text: (Player, _PlayerConfig, Block) => {
@@ -145,9 +153,9 @@ module.exports = {
             Color: 0,
             /** 进度值 @type {Number} */
             Percent: 100,
-            /** 默认文本 @type {String} */
-            DefaultText: "\n\n&plugins.Waila.get.error&",
         },
+        /** 默认文本 @type {String} */
+        DefaultText: "\n\n&plugins.Waila.get.error&",
         /** 刷新时间(秒) @type {Number} */
         Hz: 0.1,
         /** 查找最大距离 @type {Number} */
