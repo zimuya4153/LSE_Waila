@@ -1,0 +1,20 @@
+{
+    "entry": "Waila.js",
+    "name": "Waila",
+    "type": "lse-quickjs",
+    "description":"普普通通的搞高亮显示",
+    "author":"小小的子沐呀",
+    "version":"1.0.0",
+    "dependencies": [
+        {
+            "name": "legacy-script-engine-quickjs"
+        },
+        {
+            "name": "GMLIB"
+        },
+        {
+            "name": "GMLIB-LegacyRemoteCallApi",
+            "version":"0.12.8"
+        }
+    ]
+}

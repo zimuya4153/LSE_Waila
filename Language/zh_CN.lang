@@ -1,0 +1,93 @@
+## 玩家设置翻译
+plugins.Waila.command.description=§b高亮显示设置 §7- §dby 小小的子沐呀
+plugins.Waila.gui.title=§e高亮显示设置
+plugins.Waila.gui.cancel=§8已取消设置
+plugins.Waila.gui.succes=§g设置成功
+plugins.Waila.gui.switch=§b高亮显示开关
+plugins.Waila.gui.dropdown=§a显示模式
+plugins.Waila.gui.dropdown.items.bossbar=§1BOSS栏
+plugins.Waila.gui.dropdown.items.tell_popup=§2音乐盒消息
+plugins.Waila.gui.dropdown.items.tell_tip=§3物品栏上方
+plugins.Waila.gui.dropdown.items.actionBar=§5活动栏
+
+## 配置文件翻译
+plugins.Waila.get.error=§c获取实体或方块失败
+
+plugins.Waila.block.name=§6%s §7(%s)
+plugins.Waila.block.destroytime=§7破坏时长 §6%ss
+plugins.Waila.block.destroy=§l%s §r§7能否采集§r
+plugins.Waila.block.cake.status=§3蛋糕状态:§c%s/7
+plugins.Waila.block.chest.size=§b容量:§a%s/%s
+plugins.Waila.block.jukebox=§8播放唱片 §c%s
+plugins.Waila.block.beacon=§7选择效果:§5%s
+plugins.Waila.block.mob_spawner=§d生成怪物:§a%s
+plugins.Waila.block.commandblock.command=§d命令:§a%s
+plugins.Waila.block.flower_pot=§d种植的花§b:%s
+plugins.Waila.block.open_status.open=§e开启状态:§6开
+plugins.Waila.block.open_status.close=§e开启状态:§6关
+plugins.Waila.block.pos=§7X:§g%s §7Y:§g%s §7Z:§g%s
+plugins.Waila.block.Cropnum=§3成长程度:§g%s
+plugins.Waila.block.redstonelv=§c红石等级:§e%s
+
+plugins.Waila.entity.name=§6%s §7(%s)
+plugins.Waila.entity.pose=§d姿势ID:§a%s
+plugins.Waila.entity.painting=§a主题:§6%s
+plugins.Waila.entity.slime.size=§6大小:§3%s
+plugins.Waila.entity.falling_block=§7方块:§9%s
+plugins.Waila.entity.tnt=§d爆炸时间:§a%s(Tick)
+plugins.Waila.entity.village.offers=§c交易信息:\n
+plugins.Waila.entity.village.offers.item1=  §d%s§r§a*§b%s
+plugins.Waila.entity.village.offers.item2= §g+ §d%s§r§a*§b%s
+plugins.Waila.entity.village.offers.item3= §6=> %s§r§a*§b%s
+plugins.Waila.entity.health=§l§c❤ §a%s/%s§r
+plugins.Waila.entity.pos=§7X:§g%s §7Y:§g%s §7Z:§g%s
+
+## 补全Mojang没有翻译的方块或实体
+tile.daylight_detector_inverted.name=黑夜传感器
+tile.melon_stem.name=西瓜茎
+tile.wall_sign.name=橡木告示牌
+tile.spruce_wall_sign.name=云杉木告示牌
+tile.birch_wall_sign.name=白桦木告示牌
+tile.jungle_wall_sign.name=丛林木告示牌
+tile.acacia_wall_sign.name=金合欢告示牌
+tile.darkoak_wall_sign.name=深色橡木告示牌
+tile.mangrove_wall_sign.name=红树木告示牌
+tile.cherry_wall_sign.name=樱花木告示牌
+tile.bamboo_wall_sign.name=竹制告示牌
+tile.obsidian.name=绯红木告示牌
+tile.warped_wall_sign.name=诡异木告示牌
+tile.oak_hanging_sign.name=橡木悬挂告示牌
+tile.spruce_hanging_sign.name=云杉木悬挂告示牌
+tile.birch_hanging_sign.name=白桦木悬式告示牌
+tile.jungle_hanging_sign.name=丛林悬挂告示牌
+tile.acacia_hanging_sign.name=金合欢悬挂告示牌
+tile.dark_oak_hanging_sign.name=深色橡木悬挂告示牌
+tile.mangrove_hanging_sign.name=红树木悬挂告示牌
+tile.cherry_hanging_sign.name=樱花木悬挂告示牌
+tile.bamboo_hanging_sign.name=竹制悬挂告示牌
+tile.crimson_hanging_sign.name=绯红木悬挂告示牌
+tile.warped_hanging_sign.name=翘曲悬挂告示牌
+tile.lit_redstone_ore.name=发光的红石矿石
+tile.lit_deepslate_redstone_ore.name=发光的深层红石矿石
+tile.torchflower_crop.name=火把花幼苗
+tile.pitcher_crop.name=猪笼草荚果
+tile.unpowered_repeater.name=红石中继器
+tile.powered_repeater.name=激活的红石中继器
+tile.sticky_piston_arm_collision.name=粘性活塞的爪爪
+tile.piston_arm_collision.name=活塞的爪爪
+tile.wooden_door.name=橡木门
+tile.spruce_door.name=云杉木门
+tile.birch_door.name=白桦木门
+tile.jungle_door.name=丛林木门
+tile.acacia_door.name=金合欢木门
+tile.dark_oak_door.name=深色橡木门
+tile.mangrove_door.name=红树木梦
+tile.cherry_door.name=樱花木门
+tile.bamboo_door.name=竹门
+tile.iron_door.name=铁门
+tile.crimson_door.name=绯红木门
+tile.warped_door.name=诡异门
+tile.lit_redstone_lamp.name=发光的红石灯
+tile.frame.name=物品展示框
+tile.skull.name=头颅
+tile.flower_pot.name=花盆
