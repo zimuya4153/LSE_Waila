@@ -10,7 +10,7 @@ Waila是一个LSE高亮显示插件，他集成了许多原版信息的具体化
 游戏内玩家可输入/waila来设置自己的Waila开关及样式  
 ![表单](http://www.gwbbs.top/img/Wailaform.png)
 ps:如果装了我们的UI包，那活动栏将是一个非常好的选择
-## 语言文件[zh_CN.lang](https://github.com/zimuya4153/LSE_Waila/blob/main/zh_CN.lang)
+## 语言文件[zh_CN.lang](https://github.com/zimuya4153/LSE_Waila/blob/main/zh_CN.lang)  
 如果遇到原版未翻译的或者你有自己的个性都可以去访问这个文件  
 切记如果你没有基础请按照规律来修改，修改错误可能导致你无法使用Waila
 ## 特别操作
