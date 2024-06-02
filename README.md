@@ -1,12 +1,29 @@
-# LSE_Waila - LSE高亮显示
+ LSE_Waila - LSE高亮显示
 ## 简单介绍
 Waila是一个LSE高亮显示插件，他集成了许多原版信息的具体化显示，可以更好的方便玩家对方块或生物的信息进行查看
-## 如何使用Waila
+## 如何正确加载Waila
 ### 所需环境
 需要在LeviLamina环境下装载前置:legacy-script-engine-quickjs，GMLIB，GMLIB-LegacyRemoteCallApi版本≥v0.12.8
 ### 如何装载
 下载释放文件，解压插件文件夹至BDS服务端plugins文件夹内，并加载
-### 配置文件介绍
+## 使用方法
+游戏内玩家可输入/waila来设置自己的Waila开关及样式  
+![[表单](https://img-blog.csdnimg.cn/8bbc653f3f854023856762ed2c8e43e9.png#pic_center =60x60)](https://raw.githubusercontent.com/zimuya4153/LSE_Waila/main/src/form.png)  
+ps:如果装了我们的UI包，那活动栏将是一个非常好的选择
+## 语言文件[zh_CN.lang](https://github.com/zimuya4153/LSE_Waila/blob/main/zh_CN.lang)
+如果遇到原版未翻译的或者你有自己的个性都可以去访问这个文件  
+切记如果你没有基础请按照规律来修改，修改错误可能导致你无法使用Waila
+## 特别操作
+这里是WuHuiZhang6902(合作者)，教你点东西，看到Config.js文件没，如果你觉着名称后面的英文id显示太长，你可以将以下代码替换第19行，那么这type就变成短短的整数id了  
+```javascript
+Text: (Player, PlayerConfig, Block) => I18nAPI.get('plugins.Waila.block.name', [Block.getTranslateName(Player.langCode), Block.type], Player.langCode)
+```
+什么，你还要再学点小操作？  
+如果你不想让他在不瞄准任何东西情况下提示文字，那么你只需要将下面代码替换Config.js文件的149行
+```javascript
+DefaultText: "",
+```
+## 配置文件介绍
 **Config.js**
 ```javascript
 // LiteLoader-AIDS automatic generated
