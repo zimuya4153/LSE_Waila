@@ -4,7 +4,7 @@
     "type": "lse-quickjs",
     "description":"普普通通的搞高亮显示",
     "author":"小小的子沐呀",
-    "version":"1.1.0",
+    "version":"1.2.0",
     "dependencies": [
         {
             "name": "legacy-script-engine-quickjs",
@@ -12,7 +12,7 @@
         },
         {
             "name": "GMLIB",
-            "version":"0.12.7"
+            "version":"0.12.8"
         },
         {
             "name": "GMLIB-LegacyRemoteCallApi",

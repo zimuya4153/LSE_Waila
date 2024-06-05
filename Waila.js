@@ -12,8 +12,22 @@
 
 /**  
  * @typedef {Object} ConfigItem  
- * @property {function(Player, PlayerConfig, Block|Entity): boolean | boolean} Conditions - 条件函数  
- * @property {(string | function(Player, PlayerConfig, Block|Entity): string)} Text - 文本内容  
+ * @property {function(Player, Block|Entity,
+ * {
+ *  HandItem:Item
+ *  BlockNbt:NbtCompound|null,
+ *  BlockEntityNbt:NbtCompound|null,
+ *  BlockContainer:Container|null,
+ *  EntityNbt:NbtCompound|null
+ * },PlayerConfig): boolean | boolean} Conditions - 条件函数  
+ * @property {(string | function(Player, Block|Entity, 
+ * {
+ *  HandItem:Item
+ *  BlockNbt:NbtCompound|null,
+ *  BlockEntityNbt:NbtCompound|null,
+ *  BlockContainer:Container|null,
+ *  EntityNbt:NbtCompound|null
+ * },PlayerConfig): string)} Text - 文本内容  
  */
 
 LLSE_Player.prototype.updateBossBarTitle =
@@ -38,6 +52,9 @@ const { I18nAPI, Minecraft } = require('./GMLIB-LegacyRemoteCallApi/lib/GMLIB_AP
 const /** 玩家数据文件 */ Data = new JsonConfigFile('./plugins/Waila/Data.json');
 Minecraft.setFixI18nEnabled();// 修复Mojang的i18n问题
 
+/** 报错记录，防刷屏 @type {String[]} */
+let ErrorList = [];
+
 setInterval(() => {
     mc.getOnlinePlayers().forEach(Player => {
         const /** @type {PlayerConfig} */ PlayerConfig = Data.get(Player.uuid, { 'Enabled': 1, 'Mode': 0 });
@@ -51,13 +68,35 @@ setInterval(() => {
         if ((!ViewBlock || ViewBlock?.pos?.toString().replace(/ /g, '').includes('(0,0,0)')) && !ViewEntity) {
             text += Config.DefaultText.replace(/&(.*)&/g, (_, key) => I18nAPI.get(key, [], Player.langCode));
         } else {
-            const EvalGetText = (Items =>
-                (typeof (Items.Conditions) === 'function' ? Items.Conditions(Player, PlayerConfig, ViewEntity ?? ViewBlock) : Items.Conditions)
-                    ? (typeof (Items.Text) === 'string' ? Items.Text : Items.Text(Player, PlayerConfig, ViewEntity ?? ViewBlock)) ?? ''
-                    : ''
-            );
+            let TempCache = {
+                'HandItem':Player.getHand(),
+                'BlockNbt': ViewBlock ? ViewBlock.getNbt() : null,
+                'BlockEntityNbt': ViewBlock.hasBlockEntity() ? ViewBlock.getBlockEntity().getNbt() : null,
+                'BlockContainer': ViewBlock.hasContainer() ? ViewBlock.getContainer() : null,
+                'EntityNbt': ViewEntity ? ViewEntity.getNbt() : null,
+            }
+            const EvalGetText = 
+            /**
+             * @param {ConfigItem} Items 
+             * @returns {String}
+             */
+            Items => {
+                try {
+                    if (typeof (Items.Conditions) === 'function' ? Items.Conditions(Player, ViewEntity ?? ViewBlock, TempCache, PlayerConfig) : Items.Conditions) {
+                        return typeof (Items.Text) === 'string' ? Items.Text : Items.Text(Player, ViewEntity ?? ViewBlock, TempCache, PlayerConfig);
+                    }
+                } catch (error) {
+                    const ErrorText = `报错:${error.message}\n文本条件:${Items.Conditions.toString()}\n文本结果:${Items.Text.toString()}\n堆栈:\n${error.stack}`
+                    if(ErrorList.includes(ErrorText))return;
+                    ErrorList.push(ErrorText);
+                    logger.error(ErrorText);
+                }
+                return '';
+            };
             text += Config.AllBefore.map(EvalGetText).join('');
-            if (ViewEntity && (!ViewBlock || Player.distanceTo(ViewEntity) <= Player.distanceTo(ViewBlock.pos))) text += Config.Entity.map(EvalGetText).join(''); else {
+            if (ViewEntity && (!ViewBlock || Player.distanceTo(ViewEntity) <= Player.distanceTo(ViewBlock.pos)))
+                text += Config.Entity.map(EvalGetText).join('');
+            else {
                 ViewEntity = null;
                 text += Config.Block.map(EvalGetText).join('');
             }
@@ -77,21 +116,26 @@ mc.listen('onServerStarted', () => {
     setInterval(() => {
         mc.getOnlinePlayers().forEach(Player => {
             const /** @type {PlayerConfig} */ PlayerConfig = Data.get(Player.uuid, { 'Enabled': 1, 'Mode': 0 });
-            if (PlayerConfig.Enabled && PlayerConfig.Mode === 0) Player.setBossBar(Config.Bossbar.ID, Config.DefaultText.replace(/&(.*)&/g, (_, key) => I18nAPI.get(key, [], Player.langCode)), Config.Bossbar.Percent, Config.Bossbar.Color);
+            if (!(
+                Player.isSimulatedPlayer()
+                || [null, true].includes(Player.isLoading)
+                || !PlayerConfig.Enabled
+                || PlayerConfig.Mode !== 0
+            )) Player.setBossBar(Config.Bossbar.ID, Config.DefaultText.replace(/&(.*)&/g, (_, key) => I18nAPI.get(key, [], Player.langCode)), Config.Bossbar.Percent, Config.Bossbar.Color);
         });
     }, 5 * 1000);
     I18nAPI.loadLanguageDirectory(`./plugins/Waila/Language`);
     mc.regPlayerCmd('waila', I18nAPI.get('plugins.Waila.command.description'), (Player, args) => {
-        if (args[1] != null) {
+        if (args[1] != null && Player.isOP()) {
             const ViewBlock = Player.getBlockFromViewVector(false, false, Config.maxDistance, false);
-            if(ViewBlock.name!==ViewBlock.getTranslateKey())return Player.tell(I18nAPI.get('plugins.Waila.command.translators.error',[ViewBlock.type,ViewBlock.getTranslateName()],Player.langCode));
+            if (ViewBlock.name !== ViewBlock.getTranslateKey()) return Player.tell(I18nAPI.get('plugins.Waila.command.translators.error', [ViewBlock.type, ViewBlock.getTranslateName()], Player.langCode));
             if (!I18nAPI.getSupportedLanguages().includes(args[0])) return Player.tell(I18nAPI.get('plugins.Waila.command.language.error', [args[0]], Player.langCode));
             File.writeLine(`./plugins/Waila/Language/${args[0]}.lang`, `${ViewBlock.getTranslateKey()}=${args[1]}`);
             I18nAPI.loadLanguageDirectory(`./plugins/Waila/Language`);
             return Player.tell(I18nAPI.get('plugins.Waila.command.translators.succes', [ViewBlock.type, args[1]], Player.langCode));
         }
         const /** @type {PlayerConfig} */ PlayerConfig = Data.get(Player.uuid, { 'Enabled': 1, 'Mode': 0 });
-        const Form = mc.newCustomForm().setTitle(I18nAPI.get('plugins.Waila.gui.title'));
+        const Form = mc.newCustomForm().setTitle(I18nAPI.get('plugins.Waila.gui.title', [], Player.langCode));
         Form.addSwitch(I18nAPI.get('plugins.Waila.gui.switch', [], Player.langCode), PlayerConfig['Enabled']);
         Form.addDropdown(I18nAPI.get('plugins.Waila.gui.dropdown', [], Player.langCode), ['bossbar', 'tell_popup', 'tell_tip', 'actionBar'].map(key => I18nAPI.get(`plugins.Waila.gui.dropdown.items.${key}`, [], Player.langCode)), PlayerConfig['Mode']);
         Player.sendForm(Form, (Player, FormData) => {

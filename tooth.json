@@ -1,7 +1,7 @@
 {
     "format_version": 2,
     "tooth": "github.com/zimuya4153/LSE_Waila",
-    "version": "1.1.0",
+    "version": "1.2.0",
     "info": {
         "name": "LSE_Waila",
         "description": "普普通通的高亮显示~",
@@ -15,11 +15,11 @@
             "legacyscriptengine"
           ]
     },
-    "asset_url": "https://github.com/zimuya4153/LSE_Waila/releases/download/v1.1.0/LSE_Waila-1.1.0.zip",
+    "asset_url": "https://github.com/zimuya4153/LSE_Waila/releases/download/v1.2.0/LSE_Waila-1.2.0.zip",
     "dependencies": {
         "github.com/LiteLDev/LeviLamina": ">=0.12.x",
         "gitea.litebds.com/LiteLDev/legacy-script-engine-quickjs": ">=0.7.9",
-        "github.com/GroupMountain/GMLIB": ">=0.12.7",
+        "github.com/GroupMountain/GMLIB": ">=0.12.8",
         "github.com/GroupMountain/GMLIB-LegacyRemoteCallApi": ">=0.12.8"
     },
     "files": {
