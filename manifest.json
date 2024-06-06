@@ -4,7 +4,7 @@
     "type": "lse-quickjs",
     "description":"普普通通的搞高亮显示",
     "author":"小小的子沐呀",
-    "version":"1.2.0",
+    "version":"1.3.0",
     "dependencies": [
         {
             "name": "legacy-script-engine-quickjs",

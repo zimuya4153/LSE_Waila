@@ -1,7 +1,7 @@
 // LiteLoader-AIDS automatic generated
 /// <reference path="d:\dts/dts/helperlib/src/index.d.ts"/>
 
-const { I18nAPI, Minecraft } = require('./../GMLIB-LegacyRemoteCallApi/lib/GMLIB_API-JS.js');
+const { I18nAPI, Minecraft, UserCache } = require('./../GMLIB-LegacyRemoteCallApi/lib/GMLIB_API-JS.js');
 
 module.exports = {
     Config: {
@@ -18,13 +18,13 @@ module.exports = {
                 Conditions: true,
                 Text: (Player, Block) => I18nAPI.get('plugins.Waila.block.name', [Block.getTranslateName(Player.langCode), Block.type], Player.langCode)
             },
-            {// 挖掘时间
+            {// 硬度
                 Conditions: (_Player, Block) => !Block.isUnbreakable,
                 Text: (Player, Block) => '\n' + I18nAPI.get('plugins.Waila.block.hardness', [Block.getBlockDestroySpeed().toFixed(1).toString()], Player.langCode)
             },
             {// 是否可以采集
                 Conditions: (_Player, Block) => !Block.isUnbreakable,
-                Text: (Player, Block,Cache) => '\n' + I18nAPI.get('plugins.Waila.block.destroy', [(!(Player.isAdventure && !Cache['HandItem'].canDestroy(Block)) && (Block.isAlwaysDestroyable() || Cache['HandItem'].canDestroySpecial(Block))) ? '§a✔' : '§c✘'], Player.langCode)
+                Text: (Player, Block, Cache) => '\n' + I18nAPI.get('plugins.Waila.block.destroy', [(!(Player.isAdventure && !Cache['HandItem'].canDestroy(Block)) && (Block.isAlwaysDestroyable() || Cache['HandItem'].canDestroySpecial(Block))) ? '§a✔' : '§c✘'], Player.langCode)
             },
             {// 蛋糕
                 Conditions: (_Player, Block) => Block.type === 'minecraft:cake',
@@ -32,8 +32,7 @@ module.exports = {
             },
             {// 箱子容量
                 Conditions: (_Player, Block) => Block.hasContainer(),
-                Text: (Player, _Block, Cache) => '\n' + I18nAPI.get('plugins.Waila.block.chest.size', [Cache['BlockContainer'].getAllItems().filter(Item => !Item.isNull()).length.toString(), Cache['BlockContainer'].size.toString()], Player.langCde)
-
+                Text: (Player, _Block, Cache) => '\n' + I18nAPI.get('plugins.Waila.block.chest.size', [Cache['BlockContainer'].getAllItems().filter(Item => !Item.isNull()).length.toString(), Cache['BlockContainer'].size.toString(), Cache['BlockContainer'].getAllItems().map(Item => Item.count).reduce((acc, curr) => acc + curr).toString(), (Cache['BlockContainer'].size * 64).toString()], Player.langCde)
             },
             {// 农作物成熟程度数值
                 Conditions: (_Player, Block) => Block.isCropBlock,
@@ -56,7 +55,7 @@ module.exports = {
                 Text: (Player, _Block, Cache) => '\n' + I18nAPI.get(`plugins.Waila.block.flower_pot`, [I18nAPI.get(Minecraft.getBlockTranslateKeyFromName(Cache['BlockEntityNbt'].getTag('PlantBlock').getData('name')), [], Player.langCode)], Player.langCode)
             },
             {// 命令方块
-                Conditions: (_Player, Block, Cache) => ['minecraft:repeating_command_block', 'minecraft:command_block', 'minecraft:chain_command_block'].includes(Block.type) && Cache['BlockEntityNbt']?.getData('Command') !== '',
+                Conditions: (_Player, Block, Cache) => ['minecraft:repeating_command_block', 'minecraft:command_block', 'minecraft:chain_command_block'].includes(Block.type) && Cache['BlockEntityNbt']?.getData('Command') !== '' && Cache['BlockEntityNbt'].getData('Command').length < 100,
                 Text: (Player, _Block, Cache) => '\n' + I18nAPI.get(`plugins.Waila.block.commandblock.command`, [Cache['BlockEntityNbt'].getData('Command')], Player.langCode)
             },
             {// 刷怪笼
@@ -71,12 +70,49 @@ module.exports = {
                 Conditions: (_Player, Block) => Block.type === 'minecraft:composter',
                 Text: (Player, _Block, Cache) => '\n' + I18nAPI.get(`plugins.Waila.block.composter`, [Cache['BlockNbt']?.getTag('states')?.getData('composter_fill_level')?.toString()], Player.langCode)
             },
+            {// 钟摆动时间
+                Conditions: (_Player, Block, Cache) => Block.type === 'minecraft:bell' && Cache['BlockEntityNbt'].getData('Ringing'),
+                Text: (Player, _Block, Cache) => '\n' + I18nAPI.get(`plugins.Waila.block.RingingTime`, [((50 - Cache['BlockEntityNbt'].getData('Ticks')) / 20)?.toString()], Player.langCode)
+            },
+            {// 酿造剩余时间
+                Conditions: (_Player, Block, Cache) => Block.type === 'minecraft:brewing_stand' && Cache['BlockEntityNbt'].getData('CookTime') > 0,
+                Text: (Player, _Block, Cache) => '\n' + I18nAPI.get(`plugins.Waila.block.BrewingStand.cookTime`, [(Cache['BlockEntityNbt'].getData('CookTime') / 20)?.toString()], Player.langCode)
+            },
+            {// 酿造剩余燃料
+                Conditions: (_Player, Block, Cache) => Block.type === 'minecraft:brewing_stand' && Cache['BlockEntityNbt'].getData('FuelAmount') > 0,
+                Text: (Player, _Block, Cache) => '\n' + I18nAPI.get(`plugins.Waila.block.BrewingStand.Fuel`, [Cache['BlockEntityNbt'].getData('FuelAmount').toString(), Cache['BlockEntityNbt'].getData('FuelTotal').toString()], Player.langCode)
+            },
             {// 信标
                 Conditions: (_Player, Block, Cache) => Block.type === 'minecraft:beacon' && ![0, null].includes(Cache['BlockEntityNbt']?.getData('primary')),
-                Text: (Player, _Block, Cache) => {
-                    const BuffID = [null, 'moveSpeed', 'moveSlowdown', 'digSpeed', 'digSlowDown', 'damageBoost', 'heal', 'harm', 'jump', 'confusion', 'regeneration', 'resistance', 'fireResistance', 'waterBreathing', 'invisibility', 'blindness', 'nightVision', 'hunger', 'weakness', 'poison', 'wither', 'healthBoost', 'absorption', 'saturation', 'levitation', 'poison', 'conduitPower', 'slowFalling'];
-                    return '\n' + I18nAPI.get(`plugins.Waila.block.beacon`, [I18nAPI.get(`potion.${BuffID[Cache['BlockEntityNbt'].getData('primary')]}`, [], Player.langCode) + ' ' + (Cache['BlockEntityNbt'].getData('secondary') !== 0 ? I18nAPI.get(`potion.${BuffID[Cache['BlockEntityNbt'].getData('secondary')]}`, [], Player.langCode) : '')], Player.langCode);
-                }
+                Text: (Player, _Block, Cache) => '\n' + I18nAPI.get(`plugins.Waila.block.beacon`, [I18nAPI.get(`potion.${Cache['BuffKeyID'][Cache['BlockEntityNbt'].getData('primary')]}`, [], Player.langCode) + ' ' + (Cache['BlockEntityNbt'].getData('secondary') !== 0 ? I18nAPI.get(`potion.${Cache['BuffKeyID'][Cache['BlockEntityNbt'].getData('secondary')]}`, [], Player.langCode) : '')], Player.langCode)
+            },
+            {// 炼药锅药水效果
+                Conditions: (_Player, Block, Cache) => Block.type === 'minecraft:cauldron' && Cache['BlockEntityNbt']?.getData('PotionId') !== -1,
+                Text: (Player, _Block, Cache) => '\n' + I18nAPI.get(`plugins.Waila.block.cauldron`, [I18nAPI.get(`potion.${Cache['BuffKeyID'][Cache['BlockEntityNbt'].getData('PotionId')]}`, [], Player.langCode), I18nAPI.get(`itemGroup.name.${['potion', 'splashPotion', 'lingeringPotion'][Cache['BlockEntityNbt'].getData('PotionType')]}`)], Player.langCode)
+            },
+            {// 红石比较器信号强度
+                Conditions: (_Player, Block) => Block.type === 'minecraft:powered_comparator',
+                Text: (Player, _Block, Cache) => '\n' + I18nAPI.get(`plugins.Waila.block.powered_comparator`, [Cache['BlockEntityNbt'].getData('OutputSignal').toString()], Player.langCode)
+            },
+            {// 末地折跃门
+                Conditions: (_Player, Block) => Block.type === 'minecraft:end_gateway' && Block.pos.dimid === 2,
+                Text: (Player, _Block, Cache) => '\n' + I18nAPI.get(`plugins.Waila.block.end_gateway`, [Cache['BlockEntityNbt'].getData('ExitPortal').toArray().map(item => item.toString()).join(' ')], Player.langCode)
+            },
+            {// 熔炼存储经验
+                Conditions: (_Player, Block, Cache) => ['minecraft:furnace', 'minecraft:lit_furnace'].includes(Block.type) && Cache['BlockEntityNbt']?.getData('StoredXPInt') > 0,
+                Text: (Player, _Block, Cache) => '\n' + I18nAPI.get(`plugins.Waila.block.furnace.StoredXPInt`, [Cache['BlockEntityNbt'].getData('StoredXPInt').toString()], Player.langCode)
+            },
+            {// 熔炼熔炼进度
+                Conditions: (_Player, Block, Cache) => ['minecraft:furnace', 'minecraft:lit_furnace'].includes(Block.type) && Cache['BlockEntityNbt']?.getData('CookTime') > 0,
+                Text: (Player, _Block, Cache) => '\n' + I18nAPI.get(`plugins.Waila.block.furnace.CookTime`, [(Cache['BlockEntityNbt'].getData('CookTime') / 2).toString()], Player.langCode)
+            },
+            {// 熔炼剩余燃料
+                Conditions: (_Player, Block, Cache) => ['minecraft:furnace', 'minecraft:lit_furnace'].includes(Block.type) && Cache['BlockEntityNbt']?.getData('BurnTime') > 0,
+                Text: (Player, _Block, Cache) => '\n' + I18nAPI.get(`plugins.Waila.block.furnace.Burn`, [Cache['BlockEntityNbt']?.getData('BurnTime').toString(), Cache['BlockEntityNbt']?.getData('BurnDuration').toString()], Player.langCode)
+            },
+            {// 最后编辑告示牌的玩家
+                Conditions: (_Player, Block, Cache) => Block.type.includes('_sign') && Cache['BlockEntityNbt']?.getTag('FrontText')?.getData('TextOwner') !== '',
+                Text: (Player, _Block, Cache) => '\n' + I18nAPI.get(`plugins.Waila.block.sign`, [UserCache.getNameByXuid(Cache['BlockEntityNbt'].getTag('FrontText').getData('TextOwner'))], Player.langCode)
             },
             {// 方块坐标
                 Conditions: true,
@@ -113,13 +149,45 @@ module.exports = {
                 Conditions: (_Player, Entity) => Entity.type === 'minecraft:tnt',
                 Text: (Player, _Entity, Cache) => '\n' + I18nAPI.get('plugins.Waila.entity.tnt', [Cache['EntityNbt']?.getData('Fuse')?.toString() ?? '0'], Player.langCode)
             },
+            {// 繁殖冷却时间
+                Conditions: (_Player, _Entity, Cache) => Cache['EntityNbt'].getData('BreedCooldown') > 0,
+                Text: (Player, _Entity, Cache) => '\n' + I18nAPI.get('plugins.Waila.entity.breedcooldown', [(Cache['EntityNbt']?.getData('BreedCooldown') / 20)?.toFixed(1)?.toString()], Player.langCode)
+            },
+            {// 成年所需时间
+                Conditions: (_Player, Entity) => Entity.isBaby,
+                Text: (Player, _Entity, Cache) => '\n' + I18nAPI.get('plugins.Waila.entity.age', [(Math.abs(Cache['EntityNbt']?.getData('Age')) / 20)?.toFixed(1)?.toString()], Player.langCode)
+            },
+            {// 跳跃高度
+                Conditions: (_Player, Entity) => ['minecraft:horse', 'minecraft:skeleton_horse', 'minecraft:zombie_horse', 'minecraft:donkey', 'minecraft:mule', 'minecraft:llama', 'minecraft:trader_llama'].includes(Entity.type),
+                Text: (Player, _Entity, Cache) => '\n' + I18nAPI.get('plugins.Waila.entity.jump', [(Cache['EntityNbt'].getTag('Attributes').toArray().find(Attribute => Attribute.Name === 'minecraft:horse.jump_strength')['Current'] / 0.2724275).toFixed(1).toString()], Player.langCode)
+            },
+            {// 村民职业
+                Conditions: (_Player, Entity) => Entity.type === 'minecraft:villager_v2' && !Entity.isBaby,
+                Text: (Player, _Entity, Cache) => '\n' + I18nAPI.get('plugins.Waila.entity.village.profession', [I18nAPI.get(`entity.villager.${({ 'armorer': 'armor', 'weaponsmith': 'weapon', 'leatherworker': 'leather', 'toolsmith': 'tool', 'undefined': 'unskilled' })[Cache['EntityNbt'].getData('PreferredProfession')] ?? Cache['EntityNbt'].getData('PreferredProfession')}`, [], Player.langCode)], Player.langCode)
+            },
+            {// 无敌时间
+                Conditions: (_Player, _Entity, Cache) => Cache['EntityNbt'].getData('HurtTime') > 0,
+                Text: (Player, _Entity, Cache) => '\n' + I18nAPI.get('plugins.Waila.entity.Invincible_time', [(Cache['EntityNbt'].getData('HurtTime') / 20).toFixed(1).toString()], Player.langCode)
+            },
+            {// 玩家游戏模式
+                Conditions: (_Player, Entity) => Entity.isPlayer(),
+                Text: (Player, Entity) => '\n' + I18nAPI.get('plugins.Waila.entity.gamemode', [I18nAPI.get(`gameMode.${['survival', 'creative', 'adventure', null, null, null, 'spectator'][Entity.toPlayer().gameMode]}`, [], Player.langCode)], Player.langCode)
+            },
+            {// 末影螨剩余存在时间
+                Conditions: (_Player, Entity) => Entity.type === 'minecraft:endermite',
+                Text: (Player, _Entity, Cache) => '\n' + I18nAPI.get('plugins.Waila.entity.endermite.Lifetime', [((2400 - Cache['EntityNbt'].getData('Lifetime')) / 20).toFixed(1).toString()], Player.langCode)
+            },
+            {// 山羊羊角数量
+                Conditions: (_Player, Entity) => Entity.type === 'minecraft:goat',
+                Text: (Player, _Entity, Cache) => '\n' + I18nAPI.get('plugins.Waila.entity.goat.GoatHornCount', [Cache['EntityNbt'].getData('GoatHornCount').toString()], Player.langCode)
+            },
             {// 村民
                 Conditions: (_Player, Entity, Cache) => Entity.type === 'minecraft:villager_v2' && Cache['EntityNbt']?.getTag('Offers')?.getTag('Recipes') != null,
                 Text: (Player, _Entity, Cache) => {
                     let /** @type {NbtList} */OffersNbts = Cache['EntityNbt'].getTag('Offers').getTag('Recipes'),/** @type {String[]} */ OffersTexts = [];
                     for (let index = 0; index < OffersNbts.getSize(); index++) {
                         const /** @type {NbtCompound} */OffersNbt = OffersNbts.getData(index);
-                        if (Cache['EntityNbt'].getTag('Offers').getTag('TierExpRequirements').getData(OffersNbt.getData('tier')).getData(OffersNbt.getData('tier').toString()) > Cache['EntityNbt'].getData('Riches')) continue;
+                        if (OffersNbt.getData('tier') > Cache['EntityNbt'].getData('TradeTier')) continue;
                         const BuyItemA = mc.newItem(OffersNbt.getTag('buyA').getData('Name'), OffersNbt.getData('buyCountA'));
                         OffersTexts[index] = I18nAPI.get('plugins.Waila.entity.village.offers.item1', [BuyItemA.getTranslateName(Player.langCode), BuyItemA.count.toString()], Player.langCode);
                         if (OffersNbt.getTag('buyB')) {
@@ -180,6 +248,7 @@ module.exports = {
  *  BlockEntityNbt:NbtCompound|null,
  *  BlockContainer:Container|null,
  *  EntityNbt:NbtCompound|null
+ *  BuffKeyID:String[]
  * },PlayerConfig): boolean | boolean} Conditions - 条件函数  
  * @property {(string | function(Player, Block|Entity, 
  * {
@@ -188,5 +257,6 @@ module.exports = {
  *  BlockEntityNbt:NbtCompound|null,
  *  BlockContainer:Container|null,
  *  EntityNbt:NbtCompound|null
+ *  BuffKeyID:String[]
  * },PlayerConfig): string)} Text - 文本内容  
  */

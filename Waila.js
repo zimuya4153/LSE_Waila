@@ -19,6 +19,7 @@
  *  BlockEntityNbt:NbtCompound|null,
  *  BlockContainer:Container|null,
  *  EntityNbt:NbtCompound|null
+ *  BuffKeyID:String[]
  * },PlayerConfig): boolean | boolean} Conditions - 条件函数  
  * @property {(string | function(Player, Block|Entity, 
  * {
@@ -27,6 +28,7 @@
  *  BlockEntityNbt:NbtCompound|null,
  *  BlockContainer:Container|null,
  *  EntityNbt:NbtCompound|null
+ *  BuffKeyID:String[]
  * },PlayerConfig): string)} Text - 文本内容  
  */
 
@@ -69,30 +71,31 @@ setInterval(() => {
             text += Config.DefaultText.replace(/&(.*)&/g, (_, key) => I18nAPI.get(key, [], Player.langCode));
         } else {
             let TempCache = {
-                'HandItem':Player.getHand(),
+                'HandItem': Player.getHand(),
                 'BlockNbt': ViewBlock ? ViewBlock.getNbt() : null,
                 'BlockEntityNbt': ViewBlock.hasBlockEntity() ? ViewBlock.getBlockEntity().getNbt() : null,
                 'BlockContainer': ViewBlock.hasContainer() ? ViewBlock.getContainer() : null,
                 'EntityNbt': ViewEntity ? ViewEntity.getNbt() : null,
+                'BuffKeyID': [null, 'moveSpeed', 'moveSlowdown', 'digSpeed', 'digSlowDown', 'damageBoost', 'heal', 'harm', 'jump', 'confusion', 'regeneration', 'resistance', 'fireResistance', 'waterBreathing', 'invisibility', 'blindness', 'nightVision', 'hunger', 'weakness', 'poison', 'wither', 'healthBoost', 'absorption', 'saturation', 'levitation', 'poison', 'conduitPower', 'slowFalling'],
             }
-            const EvalGetText = 
-            /**
-             * @param {ConfigItem} Items 
-             * @returns {String}
-             */
-            Items => {
-                try {
-                    if (typeof (Items.Conditions) === 'function' ? Items.Conditions(Player, ViewEntity ?? ViewBlock, TempCache, PlayerConfig) : Items.Conditions) {
-                        return typeof (Items.Text) === 'string' ? Items.Text : Items.Text(Player, ViewEntity ?? ViewBlock, TempCache, PlayerConfig);
+            const EvalGetText =
+                /**
+                 * @param {ConfigItem} Items 
+                 * @returns {String}
+                 */
+                Items => {
+                    try {
+                        if (typeof (Items.Conditions) === 'function' ? Items.Conditions(Player, ViewEntity ?? ViewBlock, TempCache, PlayerConfig) : Items.Conditions) {
+                            return typeof (Items.Text) === 'string' ? Items.Text : Items.Text(Player, ViewEntity ?? ViewBlock, TempCache, PlayerConfig);
+                        }
+                    } catch (error) {
+                        const ErrorText = `报错:${error.message}\n文本条件:${Items.Conditions.toString()}\n文本结果:${Items.Text.toString()}\n堆栈:\n${error.stack}`
+                        if (ErrorList.includes(ErrorText)) return;
+                        ErrorList.push(ErrorText);
+                        logger.error(ErrorText);
                     }
-                } catch (error) {
-                    const ErrorText = `报错:${error.message}\n文本条件:${Items.Conditions.toString()}\n文本结果:${Items.Text.toString()}\n堆栈:\n${error.stack}`
-                    if(ErrorList.includes(ErrorText))return;
-                    ErrorList.push(ErrorText);
-                    logger.error(ErrorText);
-                }
-                return '';
-            };
+                    return '';
+                };
             text += Config.AllBefore.map(EvalGetText).join('');
             if (ViewEntity && (!ViewBlock || Player.distanceTo(ViewEntity) <= Player.distanceTo(ViewBlock.pos)))
                 text += Config.Entity.map(EvalGetText).join('');
