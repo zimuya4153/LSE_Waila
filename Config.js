@@ -99,24 +99,24 @@ module.exports = {
                 Text: (Player, _Block, Cache) => '\n' + I18nAPI.get(`plugins.Waila.block.end_gateway`, [Cache['BlockEntityNbt'].getData('ExitPortal').toArray().map(item => item.toString()).join(' ')], Player.langCode)
             },
             {// 熔炼存储经验
-                Conditions: (_Player, Block, Cache) => ['minecraft:furnace', 'minecraft:lit_furnace'].includes(Block.type) && Cache['BlockEntityNbt']?.getData('StoredXPInt') > 0,
+                Conditions: (_Player, Block, Cache) => ['minecraft:furnace', 'minecraft:lit_furnace', 'minecraft:blast_furnace', 'minecraft:lit_blast_furnace', 'minecraft:smoker', 'minecraft:lit_smoker'].includes(Block.type) && Cache['BlockEntityNbt']?.getData('StoredXPInt') > 0,
                 Text: (Player, _Block, Cache) => '\n' + I18nAPI.get(`plugins.Waila.block.furnace.StoredXPInt`, [Cache['BlockEntityNbt'].getData('StoredXPInt').toString()], Player.langCode)
             },
             {// 熔炼熔炼进度
-                Conditions: (_Player, Block, Cache) => ['minecraft:furnace', 'minecraft:lit_furnace'].includes(Block.type) && Cache['BlockEntityNbt']?.getData('CookTime') > 0,
-                Text: (Player, _Block, Cache) => '\n' + I18nAPI.get(`plugins.Waila.block.furnace.CookTime`, [(Cache['BlockEntityNbt'].getData('CookTime') / 2).toString()], Player.langCode)
+                Conditions: (_Player, Block, Cache) => ['minecraft:lit_furnace', 'minecraft:lit_blast_furnace', 'minecraft:lit_smoker'].includes(Block.type) && Cache['BlockEntityNbt']?.getData('CookTime') > 0,
+                Text: (Player, Block, Cache) => '\n' + I18nAPI.get(`plugins.Waila.block.furnace.CookTime`, [(Cache['BlockEntityNbt'].getData('CookTime') / (Block.type === 'minecraft:lit_furnace' ? 2 : 1)).toString()], Player.langCode)
             },
             {// 熔炼剩余燃料
-                Conditions: (_Player, Block, Cache) => ['minecraft:furnace', 'minecraft:lit_furnace'].includes(Block.type) && Cache['BlockEntityNbt']?.getData('BurnTime') > 0,
+                Conditions: (_Player, Block, Cache) => ['minecraft:lit_furnace', 'minecraft:lit_blast_furnace', 'minecraft:lit_smoker'].includes(Block.type) && Cache['BlockEntityNbt']?.getData('BurnTime') > 0,
                 Text: (Player, _Block, Cache) => '\n' + I18nAPI.get(`plugins.Waila.block.furnace.Burn`, [Cache['BlockEntityNbt']?.getData('BurnTime').toString(), Cache['BlockEntityNbt']?.getData('BurnDuration').toString()], Player.langCode)
             },
             {// 最后编辑告示牌的玩家
                 Conditions: (_Player, Block, Cache) => Block.type.includes('_sign') && Cache['BlockEntityNbt']?.getTag('FrontText')?.getData('TextOwner') !== '',
                 Text: (Player, _Block, Cache) => '\n' + I18nAPI.get(`plugins.Waila.block.sign`, [UserCache.getNameByXuid(Cache['BlockEntityNbt'].getTag('FrontText').getData('TextOwner'))], Player.langCode)
             },
-            {// 方块坐标
-                Conditions: true,
-                Text: (Player, Block) => '\n' + I18nAPI.get('plugins.Waila.block.pos', [Block.pos.x.toString(), Block.pos.y.toString(), Block.pos.z.toString()], Player.langCode)
+            {// 磁石ID
+                Conditions: (_Player, Block, Cache) => Block.type === 'minecraft:lodestone' && Cache['BlockEntityNbt']?.getTag('trackingHandle') != null,
+                Text: (Player, _Block, Cache) => '\n' + I18nAPI.get(`plugins.Waila.block.lodestone`, [Cache['BlockEntityNbt']?.getTag('trackingHandle').toString()], Player.langCode)
             },
         ],
         /** 指向实体时显示 @type {ConfigItem[]} */
@@ -127,7 +127,7 @@ module.exports = {
             },
             {// 血量
                 Conditions: (_Player, Entity) => Entity.maxHealth !== 0,
-                Text: (Player, Entity) => '\n' + I18nAPI.get('plugins.Waila.entity.health', [Entity.health.toString(), Entity.maxHealth.toString()], Player.langCode)
+                Text: (Player, Entity, Cache) => '\n' + I18nAPI.get('plugins.Waila.entity.health', [Cache['EntityNbt'].getTag('Attributes').toArray().find(Attribute => Attribute.Name === 'minecraft:health')['Current'].toFixed(2).toString(), Entity.maxHealth.toString()], Player.langCode)
             },
             {// 盔甲架
                 Conditions: (_Player, Entity) => Entity.type === 'minecraft:armor_stand',
@@ -158,12 +158,20 @@ module.exports = {
                 Text: (Player, _Entity, Cache) => '\n' + I18nAPI.get('plugins.Waila.entity.age', [(Math.abs(Cache['EntityNbt']?.getData('Age')) / 20)?.toFixed(1)?.toString()], Player.langCode)
             },
             {// 跳跃高度
-                Conditions: (_Player, Entity) => ['minecraft:horse', 'minecraft:skeleton_horse', 'minecraft:zombie_horse', 'minecraft:donkey', 'minecraft:mule', 'minecraft:llama', 'minecraft:trader_llama'].includes(Entity.type),
+                Conditions: (_Player, Entity) => ['minecraft:horse', 'minecraft:skeleton_horse', 'minecraft:zombie_horse', 'minecraft:donkey', 'minecraft:mule'].includes(Entity.type),
                 Text: (Player, _Entity, Cache) => '\n' + I18nAPI.get('plugins.Waila.entity.jump', [(Cache['EntityNbt'].getTag('Attributes').toArray().find(Attribute => Attribute.Name === 'minecraft:horse.jump_strength')['Current'] / 0.2724275).toFixed(1).toString()], Player.langCode)
             },
+            {// 当前移动速度
+                Conditions: (_Player, Entity) => Entity.isMoving && Entity.speed >= 1,
+                Text: (Player, Entity) => '\n' + I18nAPI.get('plugins.Waila.entity.speed', [Entity.speed.toFixed(2).toString()], Player.langCode)
+            },
             {// 村民职业
-                Conditions: (_Player, Entity) => Entity.type === 'minecraft:villager_v2' && !Entity.isBaby,
+                Conditions: (_Player, Entity, Cache) => Entity.type === 'minecraft:villager_v2' && !Entity.isBaby && Cache['EntityNbt'].getData('PreferredProfession') != null,
                 Text: (Player, _Entity, Cache) => '\n' + I18nAPI.get('plugins.Waila.entity.village.profession', [I18nAPI.get(`entity.villager.${({ 'armorer': 'armor', 'weaponsmith': 'weapon', 'leatherworker': 'leather', 'toolsmith': 'tool', 'undefined': 'unskilled' })[Cache['EntityNbt'].getData('PreferredProfession')] ?? Cache['EntityNbt'].getData('PreferredProfession')}`, [], Player.langCode)], Player.langCode)
+            },
+            {// 燃烧时间
+                Conditions: (_Player, Entity) => Entity.isOnFire,
+                Text: (Player, _Entity, Cache) => '\n' + I18nAPI.get('plugins.Waila.entity.fire_time', [(Cache['EntityNbt'].getTag('internalComponents').getTag('OnFireComponent').getTag('OnFireTicksRemaining') / 20).toFixed(2).toString()], Player.langCode)
             },
             {// 无敌时间
                 Conditions: (_Player, _Entity, Cache) => Cache['EntityNbt'].getData('HurtTime') > 0,
@@ -181,8 +189,16 @@ module.exports = {
                 Conditions: (_Player, Entity) => Entity.type === 'minecraft:goat',
                 Text: (Player, _Entity, Cache) => '\n' + I18nAPI.get('plugins.Waila.entity.goat.GoatHornCount', [Cache['EntityNbt'].getData('GoatHornCount').toString()], Player.langCode)
             },
+            {// 拥有BUFF
+                Conditions: (_Player, _Entity, Cache) => Cache['EntityNbt']?.getTag('ActiveEffects') != null,
+                Text: (Player, _Entity, Cache) => '\n' + I18nAPI.get('plugins.Waila.entity.buffs', [Cache['EntityNbt'].getTag('ActiveEffects').toArray().map(buff => I18nAPI.get('plugins.Waila.entity.buffs.items', [I18nAPI.get(`potion.${Cache['BuffKeyID'][buff.Id]}`, [], Player.langCode), buff.Amplifier === -1 ? I18nAPI.get('plugins.Waila.entity.buffs.maxLevel', [], Player.langCode) : (buff.Amplifier + 1).toString()], Player.langCode)).join('')], Player.langCode)
+            },
+            {// 朝向
+                Conditions: true,
+                Text: (Player, Entity) => '\n' + I18nAPI.get('plugins.Waila.entity.direction', [I18nAPI.get(`plugins.Waila.entity.direction.${['north', 'east', 'south', 'west'][Entity.direction.toFacing()]}`, [], Player.langCode)], Player.langCde)
+            },
             {// 村民
-                Conditions: (_Player, Entity, Cache) => Entity.type === 'minecraft:villager_v2' && Cache['EntityNbt']?.getTag('Offers')?.getTag('Recipes') != null,
+                Conditions: (_Player, _Entity, Cache) => Cache['EntityNbt']?.getTag('Offers')?.getTag('Recipes') != null,
                 Text: (Player, _Entity, Cache) => {
                     let /** @type {NbtList} */OffersNbts = Cache['EntityNbt'].getTag('Offers').getTag('Recipes'),/** @type {String[]} */ OffersTexts = [];
                     for (let index = 0; index < OffersNbts.getSize(); index++) {
@@ -200,13 +216,17 @@ module.exports = {
                     return '\n' + I18nAPI.get('plugins.Waila.entity.village.offers', [], Player.langCode) + OffersTexts.join('\n');
                 }
             },
-            {// 实体坐标
-                Conditions: true,
-                Text: (Player, Entity) => '\n' + I18nAPI.get('plugins.Waila.entity.pos', [Entity.pos.x.toFixed(2).toString(), Entity.pos.y.toFixed(2).toString(), Entity.pos.z.toFixed(2).toString()], Player.langCode)
-            },
         ],
         /** 无论如何都会显示(方块和实体后面) @type {ConfigItem[]} */
         AllAfter: [
+            {// 距离
+                Conditions: true,
+                Text: (Player, Vein) => '\n' + I18nAPI.get('plugins.Waila.distance', [Player.distanceTo(Vein.pos).toFixed(1).toString()], Player.langCode)
+            },
+            {// 坐标
+                Conditions: true,
+                Text: (Player, Vein) => '\n' + I18nAPI.get('plugins.Waila.pos', [Vein.pos.x.toFixed(2).toString(), Vein.pos.y.toFixed(2).toString(), Vein.pos.z.toFixed(2).toString()], Player.langCode)
+            },
             {// 物品栏上方和actionbar换行（防止领地挡住）
                 Conditions: (_Player, _ViewVector, _Cache, PlayerConfig) => [2, 3].includes(PlayerConfig["Mode"]),
                 Text: "\n",
@@ -223,6 +243,8 @@ module.exports = {
         },
         /** 默认文本 @type {String} */
         DefaultText: "",
+        /** 默认显示位置 @type {0 | 1 | 2 | 3 | 4} */
+        DefaultMode: 0,
         /** 刷新时间(秒) @type {Number} */
         Hz: 0.1,
         /** 查找最大距离 @type {Number} */
@@ -233,10 +255,11 @@ module.exports = {
 /**
  * @typedef {Object} PlayerConfig
  * @property {Boolean} Enabled 开启状态
- * @property {0|1|2|3} Mode - 0:Bossbar栏
+ * @property {0|1|2|3|4} Mode - 0:Bossbar栏
  *                          - 1:tell.4 音符盒提示
  *                          - 2:tell.5 物品栏上方
  *                          - 3:title.4 actionBar
+ *                          - 4:Sidebar 侧边栏
  */
 
 /**  

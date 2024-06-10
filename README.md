@@ -3,7 +3,7 @@
 ## 简单介绍
 
 Waila 是一个 LSE 高亮显示插件，他集成了许多原版信息的具体化显示，可以更好的方便玩家对方块或生物的信息进行查看
-> 默认自带 43 种信息属性显示
+> 默认自带 47 种信息属性显示
 
 ## 图骗展示
 
@@ -40,7 +40,6 @@ Waila 是一个 LSE 高亮显示插件，他集成了许多原版信息的具体
   <img src="https://github.com/zimuya4153/LSE_Waila/blob/main/image/image_29.png?raw=true">
   <img src="https://github.com/zimuya4153/LSE_Waila/blob/main/image/image_30.png?raw=true">
   <img src="https://github.com/zimuya4153/LSE_Waila/blob/main/image/image_31.png?raw=true">
-  <img src="https://github.com/zimuya4153/LSE_Waila/blob/main/image/image_32.png?raw=true">
 </details>
 
 ## 如何正确加载 Waila
@@ -137,6 +136,7 @@ module.exports = {
         ],
         /** 无论如何都会显示(方块和实体后面) @type {ConfigItem[]} */
         AllAfter: [
+            // 省略
             {// 物品栏上方和actionbar换行（防止领地挡住）
                 Conditions: (Player, PlayerConfig, ViewVector) => [2, 3].includes(PlayerConfig["Mode"]),
                 Text: "\n",
@@ -153,6 +153,8 @@ module.exports = {
         },
         /** 默认文本 @type {String} */
         DefaultText: "",
+        /** 默认显示位置 @type {0 | 1 | 2 | 3 | 4} */
+        DefaultMode: 0,
         /** 刷新时间(秒) @type {Number} */
         Hz: 0.1,
         /** 查找最大距离 @type {Number} */
