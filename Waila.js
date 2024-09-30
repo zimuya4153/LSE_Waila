@@ -48,10 +48,17 @@ LLSE_Player.prototype.updateBossBarTitle =
         return this.sendPacket(bs.createPacket(0x4A));
     }
 
-/** 配置文件 @type {{AllBefore:ConfigItem[],Block:ConfigItem[],Entity:ConfigItem[],AllAfter:ConfigItem[],Bossbar:{ID:Number,Color:Number,Percent:Number},DefaultText:String,DefaultMode:0|1|2|3,Hz:Number,maxDistance:Number}} */
+/** 配置文件 @type {{AllBefore:ConfigItem[],Block:ConfigItem[],Entity:ConfigItem[],AllAfter:ConfigItem[],Bossbar:{ID:Number,Color:Number,Percent:Number},DefaultText:String,DefaultMode:0|1|2|3,Hz:Number,maxDistance:Number,NewLine:boolean}} */
 const Config = require('./Waila/Config.js').Config;
-const { PAPI } = require('./GMLIB-LegacyRemoteCallApi/lib/BEPlaceholderAPI-JS.js');
-const { I18nAPI, Minecraft } = require('./GMLIB-LegacyRemoteCallApi/lib/GMLIB_API-JS.js');
+(() => {
+    let requireFunction = {};
+    const modules = ['GMLIB-LegacyRemoteCallApi/lib/GMLIB_API-JS.js', 'GMLIB-LegacyRemoteCallApi/lib/EventAPI-JS.js', 'GMLIB-LegacyRemoteCallApi/lib/BEPlaceholderAPI-JS.js'];
+    modules.forEach(path => {
+        try { requireFunction = Object.assign(requireFunction, require(`./${path}`)); } catch { }
+        try { requireFunction = Object.assign(requireFunction, require(`./../${path}`)); } catch { }
+    });
+    Object.keys(requireFunction).forEach(name => this[name] = requireFunction[name]);
+})();
 const /** 玩家数据文件 */ Data = new JsonConfigFile('./plugins/Waila/Data.json');
 Minecraft.setFixI18nEnabled();// 修复Mojang的i18n问题
 
@@ -68,7 +75,7 @@ setInterval(() => {
         ) return;
         let ViewEntity = Player.getEntityFromViewVector(Config.maxDistance), ViewBlock = Player.getBlockFromViewVector(false, false, Config.maxDistance, false);
         let text = '';
-        if ((!ViewBlock || ViewBlock?.pos?.toString().replace(/ /g, '').includes('(0,0,0)')) && !ViewEntity) {
+        if (((!ViewBlock || (ViewBlock.pos.x === 0 && ViewBlock.pos.y === 0 && ViewBlock.pos.z === 0 && Player.distanceTo(ViewBlock.pos) > Config.maxDistance)) && !ViewEntity) || Player.isSpectator) {
             text += Config.DefaultText.replace(/&(.*)&/g, (_, key) => I18nAPI.get(key, [], Player.langCode));
         } else {
             let TempCache = {
@@ -77,7 +84,7 @@ setInterval(() => {
                 'BlockEntityNbt': ViewBlock.hasBlockEntity() ? ViewBlock.getBlockEntity().getNbt() : null,
                 'BlockContainer': ViewBlock.hasContainer() ? ViewBlock.getContainer() : null,
                 'EntityNbt': ViewEntity ? ViewEntity.getNbt() : null,
-                'BuffKeyID': [null, 'moveSpeed', 'moveSlowdown', 'digSpeed', 'digSlowDown', 'damageBoost', 'heal', 'harm', 'jump', 'confusion', 'regeneration', 'resistance', 'fireResistance', 'waterBreathing', 'invisibility', 'blindness', 'nightVision', 'hunger', 'weakness', 'poison', 'wither', 'healthBoost', 'absorption', 'saturation', 'levitation', 'poison', 'conduitPower', 'slowFalling'],
+                'BuffKeyID': ['potion.empty', 'potion.moveSpeed', 'potion.moveSlowdown', 'potion.digSpeed', 'potion.digSlowDown', 'potion.damageBoost', 'potion.heal', 'potion.harm', 'potion.jump', 'potion.confusion', 'potion.regeneration', 'potion.resistance', 'potion.fireResistance', 'potion.waterBreathing', 'potion.invisibility', 'potion.blindness', 'potion.nightVision', 'potion.hunger', 'potion.weakness', 'potion.poison', 'potion.wither', 'potion.healthBoost', 'potion.absorption', 'potion.saturation', 'potion.levitation', 'potion.poison', 'potion.conduitPower', 'potion.slowFalling', 'effect.badOmen', 'effect.villageHero', 'effect.darkness'],
             }
             const EvalGetText =
                 /**
@@ -85,18 +92,18 @@ setInterval(() => {
                  * @returns {String}
                  */
                 Items => {
-                    const ErrorLog = (text,error) => {
-                        const ErrorText = `\n${text}报错:${error.message}\n文本条件:${Items.Conditions.toString()}\n文本结果:${Items.Text.toString()}\n堆栈:\n${error.stack}`
+                    const ErrorLog = (text, error) => {
+                        const ErrorText = `\n${text}报错:${error.message}   玩家:${Player.realName}(${Player.uuid})\n文本条件:${Items.Conditions.toString()}\n文本结果:${Items.Text.toString()}\n堆栈:\n${error.stack}`
                         if (ErrorList.includes(ErrorText)) return;
                         ErrorList.push(ErrorText);
                         logger.error(ErrorText);
                     }
                     try {
                         if (!(typeof (Items.Conditions) === 'function' ? Items.Conditions(Player, ViewEntity ?? ViewBlock, TempCache, PlayerConfig) : Items.Conditions)) return '';
-                    } catch (error) { ErrorLog('条件判断',error) }
+                    } catch (error) { ErrorLog('条件判断', error) }
                     try {
                         return typeof (Items.Text) === 'string' ? Items.Text : Items.Text(Player, ViewEntity ?? ViewBlock, TempCache, PlayerConfig);
-                    } catch (error) { ErrorLog('返回文本结果',error) }
+                    } catch (error) { ErrorLog('返回文本结果', error) }
                     return ''
                 };
             text += Config.AllBefore.map(EvalGetText).join('');
@@ -116,10 +123,16 @@ setInterval(() => {
             case 3: return Player.setTitle(text, 4);
             case 4: {
                 Player.removeSidebar();
-                Player.setSidebar(I18nAPI.get('plugins.Waila.sidebar.title', [], Player.langCode), text.split('\n').reduce((acc, val, index) => {
-                    acc[val] = index + 1;
-                    return acc;
-                }, {}),0);
+                Player.setSidebar(
+                    I18nAPI.get('plugins.Waila.sidebar.title', [], Player.langCode),
+                    Config.NewLine
+                        ? text.split('\n').reduce((acc, val, index) => {
+                            acc[val] = index + 1;
+                            return acc;
+                        }, {})
+                        : { [text]: 0 }
+                    , 0
+                );
             }
         }
     });
@@ -150,16 +163,31 @@ mc.listen('onServerStarted', () => {
         const /** @type {PlayerConfig} */ PlayerConfig = Data.get(Player.uuid, { 'Enabled': 1, 'Mode': Config.DefaultMode });
         const Form = mc.newCustomForm().setTitle(I18nAPI.get('plugins.Waila.gui.title', [], Player.langCode));
         Form.addSwitch(I18nAPI.get('plugins.Waila.gui.switch', [], Player.langCode), PlayerConfig['Enabled']);
-        Form.addDropdown(I18nAPI.get('plugins.Waila.gui.dropdown', [], Player.langCode), ['bossbar', 'tell_popup', 'tell_tip', 'actionBar','sidebar'].map(key => I18nAPI.get(`plugins.Waila.gui.dropdown.items.${key}`, [], Player.langCode)), PlayerConfig['Mode']);
+        Form.addDropdown(I18nAPI.get('plugins.Waila.gui.dropdown', [], Player.langCode), ['bossbar', 'tell_popup', 'tell_tip', 'actionBar', 'sidebar'].map(key => I18nAPI.get(`plugins.Waila.gui.dropdown.items.${key}`, [], Player.langCode)), PlayerConfig['Mode']);
         Player.sendForm(Form, (Player, FormData) => {
             if (!FormData) return Player.tell(I18nAPI.get('plugins.Waila.gui.cancel', [], Player.langCode));
             Data.set(Player.uuid, Object.assign({}, { Enabled: FormData[0], Mode: FormData[1] }));
-            if(PlayerConfig.Mode===4&&FormData[1]!==4) Player.removeSidebar();
+            if (PlayerConfig.Mode === 4 && FormData[1] !== 4) Player.removeSidebar();
             if (FormData[0] && FormData[1] === 0)
                 Player.setBossBar(Config.Bossbar.ID, Config.DefaultText.replace(/&(.*)&/g, (_, key) => I18nAPI.get(key, [], Player.langCode)), Config.Bossbar.Percent, Config.Bossbar.Color);
-            else
-                Player.removeBossBar(Config.Bossbar.ID);
+            else Player.removeBossBar(Config.Bossbar.ID);
             Player.tell(I18nAPI.get('plugins.Waila.gui.succes', [], Player.langCode));
         });
     });
 });
+
+/**
+ * 插件卸载检测(防重载或卸载bossbar/sidebar残留)
+ * @param {string} cmd 命令
+ */
+function unloadDetection(cmd) {
+    /^ll\s+(?:reload|unload)\s+(?:Waila|\[minebbs\]-Waila)$/.test(cmd)
+        && mc.getOnlinePlayers().forEach(Player =>
+            Data.get(Player.uuid, { 'Enabled': 1, 'Mode': Config.DefaultMode }).Mode === 4
+                ? Player.removeSidebar()
+                : Player.removeBossBar(Config.Bossbar.ID)
+        );
+}
+
+mc.listen('onConsoleCmd', cmd => unloadDetection(cmd));
+mc.listen('onPlayerCmd', (player, cmd) => player.permLevel >= 3 && unloadDetection(cmd) || true);

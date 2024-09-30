@@ -3,7 +3,7 @@
 ## 简单介绍
 
 Waila 是一个 LSE 高亮显示插件，他集成了许多原版信息的具体化显示，可以更好的方便玩家对方块或生物的信息进行查看
-> 默认自带 47 种信息属性显示
+> 默认自带 49 种信息属性显示
 
 ## 图骗展示
 
@@ -63,6 +63,8 @@ Waila 是一个 LSE 高亮显示插件，他集成了许多原版信息的具体
 游戏内玩家可输入/waila 来设置自己的 Waila 开关及样式  
 ![表单](https://github.com/zimuya4153/LSE_Waila/blob/main/image/form.png?raw=true)  
 PS:如果装了我们的 [UI 包](https://wwm.lanzouq.com/iSMiT20o39ze "点击前往下载链接")，那活动栏将是一个非常好的选择   
+PS:如果装了 [信息栏](https://www.minebbs.com/resources/information-bar.5208/ "点击前往下载链接")，那侧边栏也是一个很好的选择   
+(装了信息栏材质包，需前往`Config.json`文件修改`NewLine`为`false`)   
 `温馨提示:"UI 包"是可以被点击的超链接`
 
 # 特别操作
@@ -159,6 +161,9 @@ module.exports = {
         Hz: 0.1,
         /** 查找最大距离 @type {Number} */
         maxDistance: 10,
+        // https://www.minebbs.com/resources/information-bar.5208/
+        /** 是否换行(用于适配材质包) @type {boolean} */
+        NewLine: true,
     },
 };
 ```
