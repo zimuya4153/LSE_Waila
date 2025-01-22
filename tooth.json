@@ -1,11 +1,11 @@
 {
     "format_version": 2,
-    "tooth": "github.com/zimuya4153/LSE_Waila",
-    "version": "1.4.1",
+    "tooth": "github.com/ZMBlocks/LSE_Waila",
+    "version": "1.4.2",
     "info": {
         "name": "LSE_Waila",
         "description": "普普通通的高亮显示~",
-        "source": "github.com/zimuya4153/LSE_Waila",
+        "source": "github.com/ZMBlocks/LSE_Waila",
         "author": "小小的子沐呀",
         "tags": [
             "levilamina",
@@ -15,12 +15,12 @@
             "legacyscriptengine"
           ]
     },
-    "asset_url": "https://github.com/zimuya4153/LSE_Waila/releases/download/v1.4.1/LSE_Waila-1.4.1.zip",
-    "dependencies": {
-        "github.com/LiteLDev/LeviLamina": ">=0.12.x",
-        "gitea.litebds.com/LiteLDev/legacy-script-engine-quickjs": ">=0.7.9",
-        "github.com/GroupMountain/GMLIB": ">=0.12.8",
-        "github.com/GroupMountain/GMLIB-LegacyRemoteCallApi": ">=0.12.8"
+    "asset_url": "https://github.com/ZMBlocks/LSE_Waila/releases/download/v1.4.2/LSE_Waila-1.4.2.zip",
+    "prerequisites": {
+        "github.com/LiteLDev/LeviLamina": ">=1.0.0-rc.1",
+        "gitea.litebds.com/LiteLDev/legacy-script-engine-quickjs": ">=0.9.0-rc.1",
+        "github.com/GroupMountain/GMLIB": ">=0.13.9",
+        "github.com/GroupMountain/GMLIB-LegacyRemoteCallApi": ">=0.13.6"
     },
     "files": {
         "place": [

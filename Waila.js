@@ -46,19 +46,12 @@ LLSE_Player.prototype.updateBossBarTitle =
         bs.writeUnsignedVarInt(0x5);
         bs.writeString(name);
         return this.sendPacket(bs.createPacket(0x4A));
-    }
+    };
 
 /** 配置文件 @type {{AllBefore:ConfigItem[],Block:ConfigItem[],Entity:ConfigItem[],AllAfter:ConfigItem[],Bossbar:{ID:Number,Color:Number,Percent:Number},DefaultText:String,DefaultMode:0|1|2|3,Hz:Number,maxDistance:Number,NewLine:boolean}} */
 const Config = require('./Waila/Config.js').Config;
-(() => {
-    let requireFunction = {};
-    const modules = ['GMLIB-LegacyRemoteCallApi/lib/GMLIB_API-JS.js', 'GMLIB-LegacyRemoteCallApi/lib/EventAPI-JS.js', 'GMLIB-LegacyRemoteCallApi/lib/BEPlaceholderAPI-JS.js'];
-    modules.forEach(path => {
-        try { requireFunction = Object.assign(requireFunction, require(`./${path}`)); } catch { }
-        try { requireFunction = Object.assign(requireFunction, require(`./../${path}`)); } catch { }
-    });
-    Object.keys(requireFunction).forEach(name => this[name] = requireFunction[name]);
-})();
+const { Minecraft, I18nAPI, Version } = require("./GMLIB-LegacyRemoteCallApi/lib/GMLIB_API-JS.js");
+const { PAPI } = require("./GMLIB-LegacyRemoteCallApi/lib/BEPlaceholderAPI-JS.js");
 const /** 玩家数据文件 */ Data = new JsonConfigFile('./plugins/Waila/Data.json');
 Minecraft.setFixI18nEnabled();// 修复Mojang的i18n问题
 
@@ -191,3 +184,17 @@ function unloadDetection(cmd) {
 
 mc.listen('onConsoleCmd', cmd => unloadDetection(cmd));
 mc.listen('onPlayerCmd', (player, cmd) => player.permLevel >= 3 && unloadDetection(cmd) || true);
+
+if (Version.getLrcaVersion().valueOf() == 130006) { // 临时修复
+    const languageFiles = File.getFilesList(`./plugins/Waila/Language`).filter(fileName => fileName.endsWith('.lang'));
+    for (const languageFile of languageFiles) {
+        File.copy(`./resource_packs/vanilla/texts/${languageFile}`, `./resource_packs/vanilla/texts/${languageFile}.bak`);
+        File.writeLine(`./resource_packs/vanilla/texts/${languageFile}`, File.readFrom(`./plugins/Waila/Language/${languageFile}`));
+    }
+    mc.listen("onServerStarted", () => {
+        for (const languageFile of languageFiles){
+            File.delete(`./resource_packs/vanilla/texts/${languageFile}`);
+            File.rename(`./resource_packs/vanilla/texts/${languageFile}.bak`, `./resource_packs/vanilla/texts/${languageFile}`);
+        }
+    });
+}

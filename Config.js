@@ -2,6 +2,8 @@
 /// <reference path="../GMLIB-LegacyRemoteCallApi/lib/BEPlaceholderAPI-JS.d.ts"/> 
 /// <reference path="../GMLIB-LegacyRemoteCallApi/lib/GMLIB_API-JS.d.ts"/>
 
+const { I18nAPI, UserCache } = require("./GMLIB-LegacyRemoteCallApi/lib/GMLIB_API-JS.js");
+
 module.exports = {
     Config: {
         /** 无论如何都会显示(方块和实体前面) @type {ConfigItem[]} */
@@ -23,7 +25,7 @@ module.exports = {
             },
             {// 是否可以采集
                 Conditions: (Player, Block) => !Player.isCreative && !Block.isUnbreakable,
-                Text: (Player, Block, Cache) => "\n" + tr("plugins.Waila.block.destroy", Player.langCode, (!(Player.isAdventure && !Cache["HandItem"].canDestroy(Block)) && (Block.isAlwaysDestroyable() || Cache["HandItem"].canDestroySpecial(Block))) ? "§a✔" : "§c✘")
+                Text: (Player, Block, Cache) => "\n" + tr("plugins.Waila.block.destroy", Player.langCode, (!(Player.isAdventure && !Cache["HandItem"].canDestroy(Block)) && Cache["HandItem"].canDestroySpecial(Block)) ? "§a✔" : "§c✘")
             },
             {// 蛋糕
                 Conditions: (_Player, Block) => Block.type === "minecraft:cake",
@@ -263,6 +265,13 @@ module.exports = {
         /** 默认文本 @type {String} */
         DefaultText: "",
         /** 默认显示位置 @type {0 | 1 | 2 | 3 | 4} */
+        /**
+         * 0 - Boss栏
+         * 1 - 音符盒提示
+         * 2 - 物品栏上方
+         * 3 - 活动栏
+         * 4 - Sidebar 侧边栏
+         */
         DefaultMode: 0,
         /** 刷新时间(秒) @type {Number} */
         Hz: 0.1,

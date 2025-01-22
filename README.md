@@ -9,37 +9,37 @@ Waila 是一个 LSE 高亮显示插件，他集成了许多原版信息的具体
 
 <details>  
   <summary>展开</summary>  
-  <img src="https://github.com/zimuya4153/LSE_Waila/blob/main/image/image_1.png?raw=true">
-  <img src="https://github.com/zimuya4153/LSE_Waila/blob/main/image/image_2.png?raw=true">
-  <img src="https://github.com/zimuya4153/LSE_Waila/blob/main/image/image_3.png?raw=true">
-  <img src="https://github.com/zimuya4153/LSE_Waila/blob/main/image/image_4.png?raw=true">
-  <img src="https://github.com/zimuya4153/LSE_Waila/blob/main/image/image_5.png?raw=true">
-  <img src="https://github.com/zimuya4153/LSE_Waila/blob/main/image/image_6.png?raw=true">
-  <img src="https://github.com/zimuya4153/LSE_Waila/blob/main/image/image_7.png?raw=true">
-  <img src="https://github.com/zimuya4153/LSE_Waila/blob/main/image/image_8.png?raw=true">
-  <img src="https://github.com/zimuya4153/LSE_Waila/blob/main/image/image_9.png?raw=true">
-  <img src="https://github.com/zimuya4153/LSE_Waila/blob/main/image/image_10.png?raw=true">
-  <img src="https://github.com/zimuya4153/LSE_Waila/blob/main/image/image_11.png?raw=true">
-  <img src="https://github.com/zimuya4153/LSE_Waila/blob/main/image/image_12.png?raw=true">
-  <img src="https://github.com/zimuya4153/LSE_Waila/blob/main/image/image_13.png?raw=true">
-  <img src="https://github.com/zimuya4153/LSE_Waila/blob/main/image/image_14.png?raw=true">
-  <img src="https://github.com/zimuya4153/LSE_Waila/blob/main/image/image_15.png?raw=true">
-  <img src="https://github.com/zimuya4153/LSE_Waila/blob/main/image/image_16.png?raw=true">
-  <img src="https://github.com/zimuya4153/LSE_Waila/blob/main/image/image_17.png?raw=true">
-  <img src="https://github.com/zimuya4153/LSE_Waila/blob/main/image/image_18.png?raw=true">
-  <img src="https://github.com/zimuya4153/LSE_Waila/blob/main/image/image_19.png?raw=true">
-  <img src="https://github.com/zimuya4153/LSE_Waila/blob/main/image/image_20.png?raw=true">
-  <img src="https://github.com/zimuya4153/LSE_Waila/blob/main/image/image_21.png?raw=true">
-  <img src="https://github.com/zimuya4153/LSE_Waila/blob/main/image/image_22.png?raw=true">
-  <img src="https://github.com/zimuya4153/LSE_Waila/blob/main/image/image_23.png?raw=true">
-  <img src="https://github.com/zimuya4153/LSE_Waila/blob/main/image/image_24.png?raw=true">
-  <img src="https://github.com/zimuya4153/LSE_Waila/blob/main/image/image_25.png?raw=true">
-  <img src="https://github.com/zimuya4153/LSE_Waila/blob/main/image/image_26.png?raw=true">
-  <img src="https://github.com/zimuya4153/LSE_Waila/blob/main/image/image_27.png?raw=true">
-  <img src="https://github.com/zimuya4153/LSE_Waila/blob/main/image/image_28.png?raw=true">
-  <img src="https://github.com/zimuya4153/LSE_Waila/blob/main/image/image_29.png?raw=true">
-  <img src="https://github.com/zimuya4153/LSE_Waila/blob/main/image/image_30.png?raw=true">
-  <img src="https://github.com/zimuya4153/LSE_Waila/blob/main/image/image_31.png?raw=true">
+  <img src="https://github.com/ZMBlocks/LSE_Waila/blob/main/image/image_1.png?raw=true">
+  <img src="https://github.com/ZMBlocks/LSE_Waila/blob/main/image/image_2.png?raw=true">
+  <img src="https://github.com/ZMBlocks/LSE_Waila/blob/main/image/image_3.png?raw=true">
+  <img src="https://github.com/ZMBlocks/LSE_Waila/blob/main/image/image_4.png?raw=true">
+  <img src="https://github.com/ZMBlocks/LSE_Waila/blob/main/image/image_5.png?raw=true">
+  <img src="https://github.com/ZMBlocks/LSE_Waila/blob/main/image/image_6.png?raw=true">
+  <img src="https://github.com/ZMBlocks/LSE_Waila/blob/main/image/image_7.png?raw=true">
+  <img src="https://github.com/ZMBlocks/LSE_Waila/blob/main/image/image_8.png?raw=true">
+  <img src="https://github.com/ZMBlocks/LSE_Waila/blob/main/image/image_9.png?raw=true">
+  <img src="https://github.com/ZMBlocks/LSE_Waila/blob/main/image/image_10.png?raw=true">
+  <img src="https://github.com/ZMBlocks/LSE_Waila/blob/main/image/image_11.png?raw=true">
+  <img src="https://github.com/ZMBlocks/LSE_Waila/blob/main/image/image_12.png?raw=true">
+  <img src="https://github.com/ZMBlocks/LSE_Waila/blob/main/image/image_13.png?raw=true">
+  <img src="https://github.com/ZMBlocks/LSE_Waila/blob/main/image/image_14.png?raw=true">
+  <img src="https://github.com/ZMBlocks/LSE_Waila/blob/main/image/image_15.png?raw=true">
+  <img src="https://github.com/ZMBlocks/LSE_Waila/blob/main/image/image_16.png?raw=true">
+  <img src="https://github.com/ZMBlocks/LSE_Waila/blob/main/image/image_17.png?raw=true">
+  <img src="https://github.com/ZMBlocks/LSE_Waila/blob/main/image/image_18.png?raw=true">
+  <img src="https://github.com/ZMBlocks/LSE_Waila/blob/main/image/image_19.png?raw=true">
+  <img src="https://github.com/ZMBlocks/LSE_Waila/blob/main/image/image_20.png?raw=true">
+  <img src="https://github.com/ZMBlocks/LSE_Waila/blob/main/image/image_21.png?raw=true">
+  <img src="https://github.com/ZMBlocks/LSE_Waila/blob/main/image/image_22.png?raw=true">
+  <img src="https://github.com/ZMBlocks/LSE_Waila/blob/main/image/image_23.png?raw=true">
+  <img src="https://github.com/ZMBlocks/LSE_Waila/blob/main/image/image_24.png?raw=true">
+  <img src="https://github.com/ZMBlocks/LSE_Waila/blob/main/image/image_25.png?raw=true">
+  <img src="https://github.com/ZMBlocks/LSE_Waila/blob/main/image/image_26.png?raw=true">
+  <img src="https://github.com/ZMBlocks/LSE_Waila/blob/main/image/image_27.png?raw=true">
+  <img src="https://github.com/ZMBlocks/LSE_Waila/blob/main/image/image_28.png?raw=true">
+  <img src="https://github.com/ZMBlocks/LSE_Waila/blob/main/image/image_29.png?raw=true">
+  <img src="https://github.com/ZMBlocks/LSE_Waila/blob/main/image/image_30.png?raw=true">
+  <img src="https://github.com/ZMBlocks/LSE_Waila/blob/main/image/image_31.png?raw=true">
 </details>
 
 ## 如何正确加载 Waila
@@ -48,20 +48,20 @@ Waila 是一个 LSE 高亮显示插件，他集成了许多原版信息的具体
 
 需要在 Bedrock Dedicated Server(BDS)服务端下装载前置:
 
--   LeviLamina`>=0.12.x`
--   legacy-script-engine-quickjs`≥0.7.9`
--   GMLIB`≥0.12.8`
--   GMLIB-LegacyRemoteCallApi`≥v0.12.8`
+-   LeviLamina`>=1.0.0-rc.1`
+-   legacy-script-engine-quickjs`≥0.9.0-rc.1`
+-   GMLIB`≥0.13.9`
+-   GMLIB-LegacyRemoteCallApi`≥v0.13.6`
 
 ### 如何装载
 
 -   第一种：下载释放文件，解压插件文件夹至 BDS 服务端 plugins 文件夹内，并加载
--   第二种：使用 Lip 安装，输入命令 `lip install github.com/zimuya4153/LSE_Waila`
+-   第二种：使用 Lip 安装，输入命令 `lip install github.com/ZMBlocks/LSE_Waila`
 
 ## 使用方法
 
 游戏内玩家可输入/waila 来设置自己的 Waila 开关及样式  
-![表单](https://github.com/zimuya4153/LSE_Waila/blob/main/image/form.png?raw=true)  
+![表单](https://github.com/ZMBlocks/LSE_Waila/blob/main/image/form.png?raw=true)  
 PS:如果装了我们的 [UI 包](https://wwm.lanzouq.com/iSMiT20o39ze "点击前往下载链接")，那活动栏将是一个非常好的选择   
 PS:如果装了 [信息栏](https://www.minebbs.com/resources/information-bar.5208/ "点击前往下载链接")，那侧边栏也是一个很好的选择   
 (装了信息栏材质包，需前往`Config.json`文件修改`NewLine`为`false`)   
@@ -105,12 +105,6 @@ PS:如果装了 [信息栏](https://www.minebbs.com/resources/information-bar.52
 | zh_CN          | 中文（简体）   |
 | zh_TW          | 中文（繁体）   |
 | ko_KR          | 韩语           |
-
-这里是 WuHuiZhang6902(合作者)，教你点东西，看到 Config.js 文件没，如果你觉着名称后面的英文 id 显示太长，你可以将以下代码替换第 19 行，那么这 type 就变成短短的整数 id 了
-
-```javascript
-Text: (Player, Block) => I18nAPI.get('plugins.Waila.block.name', [Block.getTranslateName(Player.langCode), Block.id.toString()], Player.langCode)
-```
 
 ## 配置文件介绍
 
@@ -156,6 +150,13 @@ module.exports = {
         /** 默认文本 @type {String} */
         DefaultText: "",
         /** 默认显示位置 @type {0 | 1 | 2 | 3 | 4} */
+        /**
+         * 0 - Boss栏
+         * 1 - 音符盒提示
+         * 2 - 物品栏上方
+         * 3 - 活动栏
+         * 4 - Sidebar 侧边栏
+         */
         DefaultMode: 0,
         /** 刷新时间(秒) @type {Number} */
         Hz: 0.1,
