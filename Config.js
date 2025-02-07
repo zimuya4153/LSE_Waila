@@ -1,8 +1,6 @@
 /// <reference path="d:/dts/dts/helperlib/src/index.d.ts"/> 
-/// <reference path="../GMLIB-LegacyRemoteCallApi/lib/BEPlaceholderAPI-JS.d.ts"/> 
-/// <reference path="../GMLIB-LegacyRemoteCallApi/lib/GMLIB_API-JS.d.ts"/>
 
-const { I18nAPI, UserCache } = require("./GMLIB-LegacyRemoteCallApi/lib/GMLIB_API-JS.js");
+const { I18nAPI, UserCache, Minecraft } = require("./GMLIB-LegacyRemoteCallApi/lib/GMLIB_API-JS.js");
 
 module.exports = {
     Config: {

@@ -74,7 +74,7 @@ setInterval(() => {
             let TempCache = {
                 'HandItem': Player.getHand(),
                 'BlockNbt': ViewBlock ? ViewBlock.getNbt() : null,
-                'BlockEntityNbt': ViewBlock.hasBlockEntity() ? ViewBlock.getBlockEntity().getNbt() : null,
+                'BlockEntityNbt': ViewBlock?.hasBlockEntity() ? ViewBlock?.getBlockEntity()?.getNbt() : null,
                 'BlockContainer': ViewBlock.hasContainer() ? ViewBlock.getContainer() : null,
                 'EntityNbt': ViewEntity ? ViewEntity.getNbt() : null,
                 'BuffKeyID': ['potion.empty', 'potion.moveSpeed', 'potion.moveSlowdown', 'potion.digSpeed', 'potion.digSlowDown', 'potion.damageBoost', 'potion.heal', 'potion.harm', 'potion.jump', 'potion.confusion', 'potion.regeneration', 'potion.resistance', 'potion.fireResistance', 'potion.waterBreathing', 'potion.invisibility', 'potion.blindness', 'potion.nightVision', 'potion.hunger', 'potion.weakness', 'potion.poison', 'potion.wither', 'potion.healthBoost', 'potion.absorption', 'potion.saturation', 'potion.levitation', 'potion.poison', 'potion.conduitPower', 'potion.slowFalling', 'effect.badOmen', 'effect.villageHero', 'effect.darkness'],
@@ -86,7 +86,13 @@ setInterval(() => {
                  */
                 Items => {
                     const ErrorLog = (text, error) => {
-                        const ErrorText = `\n${text}报错:${error.message}   玩家:${Player.realName}(${Player.uuid})\n文本条件:${Items.Conditions.toString()}\n文本结果:${Items.Text.toString()}\n堆栈:\n${error.stack}`
+                        const ErrorText = [ // 全程`不便阅读
+                            `§6LeviLamina:§a${ll.versionString()}   §6GMLIB:§a${Version.getGmlibVersion().toString(false)}   §6LRCA:§a${Version.getLrcaVersion().toString(false)}   §6Waila:§a${ll.getPluginInfo("Waila")?.version?.join('.')}`,
+                            `§e${text}§c报错:§4${error.message}   §e玩家§c:§a${Player.realName}§7(${Player.uuid})§c`,
+                            `§c文本条件:§b${Items.Conditions.toString()}`,
+                            `§c文本结果:§b${Items.Text.toString()}`,
+                            `§c堆栈:\n§d${error.stack.replace(/at /g, "§eat §d").replace(/\(/g, "§c(").replace(/\)/g, ")§d")}`
+                        ].join('\n');
                         if (ErrorList.includes(ErrorText)) return;
                         ErrorList.push(ErrorText);
                         logger.error(ErrorText);
@@ -188,11 +194,13 @@ mc.listen('onPlayerCmd', (player, cmd) => player.permLevel >= 3 && unloadDetecti
 if (Version.getLrcaVersion().valueOf() == 130006) { // 临时修复
     const languageFiles = File.getFilesList(`./plugins/Waila/Language`).filter(fileName => fileName.endsWith('.lang'));
     for (const languageFile of languageFiles) {
+        if (!File.exists(`./resource_packs/vanilla/texts/${languageFile}`)) continue;
         File.copy(`./resource_packs/vanilla/texts/${languageFile}`, `./resource_packs/vanilla/texts/${languageFile}.bak`);
         File.writeLine(`./resource_packs/vanilla/texts/${languageFile}`, File.readFrom(`./plugins/Waila/Language/${languageFile}`));
     }
     mc.listen("onServerStarted", () => {
-        for (const languageFile of languageFiles){
+        for (const languageFile of languageFiles) {
+            if (!File.exists(`./resource_packs/vanilla/texts/${languageFile}.bak`)) continue;
             File.delete(`./resource_packs/vanilla/texts/${languageFile}`);
             File.rename(`./resource_packs/vanilla/texts/${languageFile}.bak`, `./resource_packs/vanilla/texts/${languageFile}`);
         }
