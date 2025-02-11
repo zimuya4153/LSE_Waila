@@ -75,7 +75,7 @@ setInterval(() => {
                 'HandItem': Player.getHand(),
                 'BlockNbt': ViewBlock ? ViewBlock.getNbt() : null,
                 'BlockEntityNbt': ViewBlock?.hasBlockEntity() ? ViewBlock?.getBlockEntity()?.getNbt() : null,
-                'BlockContainer': ViewBlock.hasContainer() ? ViewBlock.getContainer() : null,
+                'BlockContainer': ViewBlock?.hasContainer() ? ViewBlock?.getContainer() : null,
                 'EntityNbt': ViewEntity ? ViewEntity.getNbt() : null,
                 'BuffKeyID': ['potion.empty', 'potion.moveSpeed', 'potion.moveSlowdown', 'potion.digSpeed', 'potion.digSlowDown', 'potion.damageBoost', 'potion.heal', 'potion.harm', 'potion.jump', 'potion.confusion', 'potion.regeneration', 'potion.resistance', 'potion.fireResistance', 'potion.waterBreathing', 'potion.invisibility', 'potion.blindness', 'potion.nightVision', 'potion.hunger', 'potion.weakness', 'potion.poison', 'potion.wither', 'potion.healthBoost', 'potion.absorption', 'potion.saturation', 'potion.levitation', 'potion.poison', 'potion.conduitPower', 'potion.slowFalling', 'effect.badOmen', 'effect.villageHero', 'effect.darkness'],
             }
